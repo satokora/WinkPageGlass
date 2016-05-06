@@ -1,0 +1,3 @@
+<!-- For more information about voice trigger, check out: https://developers.google.com/glass/develop/gdk/starting-glassware -->
+<trigger keyword="Wink Page" />
+<!-- From: file:/Users/satokokora/Documents/coursework/IT494-GraduateProject/WinkPageTurnerGlass/app/src/main/res/xml/voice_trigger.xml -->

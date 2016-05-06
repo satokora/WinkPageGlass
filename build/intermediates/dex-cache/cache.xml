@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/satokokora/.gradle/caches/modules-2/files-2.1/com.polysfactory.headgesturedetector/headgesturedetector/0.1.0/23974e071013e4f68840ac0adc0c6c630b25c65f/headgesturedetector-0.1.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="23974e071013e4f68840ac0adc0c6c630b25c65f">
+        <dex dex="/Users/satokokora/Documents/coursework/IT494-GraduateProject/WinkPageTurnerGlass/app/build/intermediates/pre-dexed/debug/headgesturedetector-0.1.0-2f43341a33eddafa76aef159394a1fac1fc5783d.jar" />
+    </item>
+    <item
+        jar="/Users/satokokora/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/19.0.0/support-v4-19.0.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="afee690af14bd2c32d400cdf78e746fd45c386fa">
+        <dex dex="/Users/satokokora/Documents/coursework/IT494-GraduateProject/WinkPageTurnerGlass/app/build/intermediates/pre-dexed/debug/support-v4-19.0.0-ed974e84af094f31101e85590089baa9dc1fa1f4.jar" />
+    </item>
+
+</items>
