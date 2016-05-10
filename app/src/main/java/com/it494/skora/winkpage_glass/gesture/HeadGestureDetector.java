@@ -32,9 +32,6 @@ public class HeadGestureDetector {
         IDLE, SHAKE_TO_RIGHT, SHAKE_BACK_TO_LEFT, SHAKE_TO_LEFT, SHAKE_BACK_TO_RIGHT, GO_DOWN, BACK_UP, GO_UP, BACK_DOWN
     }
 
-//    private static enum GravState {
-//        LEAN_DOWN, LEAN_BACK
-//    }
 
     private State mState = State.IDLE;
     private long mLastStateChanged = -1;

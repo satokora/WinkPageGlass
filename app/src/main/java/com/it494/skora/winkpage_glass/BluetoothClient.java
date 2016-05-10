@@ -81,9 +81,6 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
 
     private final EyeGesture eyeReceiver = new EyeGesture();
 
-//
-//    private static final int MAX_SLIDER_VALUE = 5;
-//    private static final long ANIMATION_DURATION_MILLIS = 5000;
     private Slider mSlider;
     private Slider.Indeterminate mIndeterminate;
 
@@ -137,8 +134,6 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
         setupClickLIstener();
         setContentView(mCardScrollView);
 
-//        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//        mSensorManager = sensorManager;
         mHeadGestureDetector = new HeadGestureDetector(this);
         mHeadGestureDetector.setOnHeadGestureListener(this);
 
@@ -147,29 +142,16 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
 //        mLastTextView= (TextView)findViewById(R.id.lastPage);
     }
 
-    /** Creates some sample items that will be displayed on cards in the card scroll view. */
-//    private List<SimpleTableItem> createItems() {
-//        ArrayList<SimpleTableItem> items = new ArrayList<SimpleTableItem>();
-//
-//        items.add(new SimpleTableItem(R.drawable.ic_music_next, "Water", "8 oz"));
-//        items.add(new SimpleTableItem(R.drawable.ic_music_previous, "Eggs, large", "2"));
-//        items.add(new SimpleTableItem(R.drawable.ic_music_move_to_front, "Ground beef", "4 oz"));
-//        items.add(new SimpleTableItem(R.drawable.ic_music_move_to_end, "Brussel sprouts", "1 cup"));
-//        items.add(new SimpleTableItem(R.drawable.ic_circle_green, "Celery", "1 stalk"));
-//
-//        return items;
-//    }
-//    @Override
+
+    @Override
     public void onStart() {
         super.onStart();
         if(D) Log.e(TAG, "++ ON START ++");
 
-        // If BT is not on, request that it be enabled.
-        // setupChat() will then be called during onActivityResult
+
         if (!myBt.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
-            // Otherwise, setup the chat session
         } else {
             if (mWinkService == null) setupWink();
         }
@@ -180,13 +162,9 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
         super.onResume();
         if(D) Log.e(TAG, "+ ON RESUME +");
 
-        // Performing this check in onResume() covers the case in which BT was
-        // not enabled during onStart(), so we were paused to enable it...
-        // onResume() will be called when ACTION_REQUEST_ENABLE activity returns.
         if (mWinkService != null) {
-            // Only if the state is STATE_NONE, do we know that we haven't started already
+
             if (mWinkService.getState() == BluetoothWinkService.STATE_NONE) {
-                // Start the Bluetooth chat services
                 mWinkService.start();
                 mHeadGestureDetector.start();
             }
@@ -212,9 +190,6 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
 
     @Override
     public void onDestroy() {
-        //unregisterReceiver(mReceiver);
-        //this.mWakeLock.release();
-
         // Stop the Bluetooth chat services
         if (mWinkService != null) mWinkService.stop();
         mCardScroller.deactivate();
@@ -317,19 +292,6 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
         mPrevTextView= (TextView)findViewById(R.id.prevPage);
         mNextTextView.setText(getGestureName(GestureMap.getNextPageGesture()));
         mPrevTextView.setText(getGestureName(GestureMap.getPrevPageGesture()));
-
-//        ArrayList<SimpleTableItem> items = new ArrayList<SimpleTableItem>();
-//
-//        items.add(new SimpleTableItem(R.drawable.ic_music_next, getGestureName(GestureMap.getNextPageGesture()), "next"));
-//        items.add(new SimpleTableItem(R.drawable.ic_music_previous, getGestureName(GestureMap.getPrevPageGesture()), "previous"));
-////        items.add(new SimpleTableItem(R.drawable.ic_music_move_to_front, getGestureName(GestureMap.getTopPageGesture()), "first"));
-////        items.add(new SimpleTableItem(R.drawable.ic_music_move_to_end, getGestureName(GestureMap.getLastPageGesture()), "last"));
-//
-//        mCardScroller = new CardScrollView(this);
-//        mCardScroller.setAdapter(new EmbeddedCardLayoutAdapter(this, items));
-//        setContentView(mCardScroller);
-//
-//        mCardScroller.activate();
 
 
     }
@@ -465,7 +427,7 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     }
 
     private void detectAndSetUp() {
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         //registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
 
         Set<BluetoothDevice> pairedDevices = myBt.getBondedDevices();

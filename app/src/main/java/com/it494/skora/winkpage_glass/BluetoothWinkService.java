@@ -33,12 +33,7 @@ import android.util.Log;
 
 import com.it494.skora.winkpage_glass.BluetoothClient;
 
-/**
- * This class does all the work for setting up and managing Bluetooth
- * connections with other devices. It has a thread that listens for
- * incoming connections, a thread for connecting with a device, and a
- * thread for performing data transmissions when connected.
- */
+
 public class BluetoothWinkService {
     // Debugging
     private static final String TAG = "BluetoothChatService";
@@ -64,11 +59,7 @@ public class BluetoothWinkService {
     public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
     public static final int STATE_CONNECTED = 3;  // now connected to a remote device
 
-    /**
-     * Constructor. Prepares a new BluetoothChat session.
-     * @param context  The UI Activity Context
-     * @param handler  A Handler to send messages back to the UI Activity
-     */
+
     public BluetoothWinkService(Context context, Handler handler) {
         mAdapter = BluetoothAdapter.getDefaultAdapter();
         mState = STATE_NONE;
