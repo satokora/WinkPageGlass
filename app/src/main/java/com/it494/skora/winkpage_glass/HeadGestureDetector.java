@@ -1,4 +1,4 @@
-package com.it494.skora.winkpage_glass.gesture;
+package com.it494.skora.winkpage_glass;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -7,13 +7,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
 
-import com.it494.skora.winkpage_glass.gesture.internal.Constants;
-
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 
 public class HeadGestureDetector {
+
+    String TAG = "HeadGestureDetector";
 
     private static final long STATE_TIMEOUT_NSEC = 1000 * 1000 * 1000;
     private static final float MIN_MOVE_ANGULAR_VELOCITY = 1.00F;
@@ -50,7 +50,7 @@ public class HeadGestureDetector {
         for (int i = 0; i < REQUIRED_SENSORS.length; i++) {
             Sensor sensor = mSensorManager.getDefaultSensor(REQUIRED_SENSORS[i]);
             if (sensor != null) {
-                Log.d(Constants.TAG, "registered:" + sensor.getName());
+                Log.d(TAG, "registered:" + sensor.getName());
                 mSensorManager.registerListener(mSensorEventListener, sensor, SENSOR_RATES[i]);
             }
         }
@@ -114,8 +114,8 @@ public class HeadGestureDetector {
                 // state timeout check
                 if (event.timestamp - mLastStateChanged > STATE_TIMEOUT_NSEC && mState != State.IDLE) {
 
-                    Log.d(Constants.TAG, "delta time: " + (event.timestamp - mLastStateChanged));
-                        Log.d(Constants.TAG, "state timeouted");
+                    Log.d(TAG, "delta time: " + (event.timestamp - mLastStateChanged));
+                        Log.d(TAG, "state timeouted");
                         mLastStateChanged = event.timestamp;
                         mState = State.IDLE;
 
@@ -128,7 +128,7 @@ public class HeadGestureDetector {
                 } else if (maxVelocityIndex == 0) {
                     if (orientationVelocity[0] < -MIN_MOVE_ANGULAR_VELOCITY) {
                         if (mState == State.IDLE) {
-                            Log.d(Constants.TAG, Arrays.toString(orientationVelocity));
+                            Log.d(TAG, Arrays.toString(orientationVelocity));
                             // Log.d(Constants.TAG, "isNod");
                             mState = State.GO_DOWN;
 
@@ -143,7 +143,7 @@ public class HeadGestureDetector {
 
                 if (orientationVelocity[0] > MIN_MOVE_ANGULAR_VELOCITY) {
                     if (mState == State.IDLE) {
-                        Log.d(Constants.TAG, Arrays.toString(orientationVelocity));
+                        Log.d(TAG, Arrays.toString(orientationVelocity));
                         mState = State.GO_UP;
                         mLastStateChanged = event.timestamp;
                         if (mListener != null) {
@@ -154,7 +154,7 @@ public class HeadGestureDetector {
                 }else if (maxVelocityIndex == 1) {
                     if (orientationVelocity[1] < -MIN_MOVE_ANGULAR_VELOCITY) {
                         if (mState == State.IDLE) {
-                             Log.d(Constants.TAG, Arrays.toString(orientationVelocity));
+                             Log.d(TAG, Arrays.toString(orientationVelocity));
                             // Log.d(Constants.TAG, "V:" + Arrays.toString(orientationVelocity));
                             mState = State.SHAKE_TO_RIGHT;
                             mLastStateChanged = event.timestamp;
@@ -164,7 +164,7 @@ public class HeadGestureDetector {
                         }
                     } else if (orientationVelocity[1] > MIN_MOVE_ANGULAR_VELOCITY) {
                         if (mState == State.IDLE) {
-                             Log.d(Constants.TAG, Arrays.toString(orientationVelocity));
+                             Log.d(TAG, Arrays.toString(orientationVelocity));
                             // Log.d(Constants.TAG, "V:" + Arrays.toString(orientationVelocity));
                             mState = State.SHAKE_TO_LEFT;
                             mLastStateChanged = event.timestamp;

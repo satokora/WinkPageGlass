@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
@@ -27,26 +25,25 @@ import com.google.android.glass.widget.CardBuilder;
 import com.google.android.glass.widget.CardScrollAdapter;
 import com.google.android.glass.widget.CardScrollView;
 import com.google.android.glass.widget.Slider;
-import com.it494.skora.winkpage_glass.BluetoothWinkService;
-import com.it494.skora.winkpage_glass.gesture.HeadGestureDetector;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class BluetoothClient extends Activity  implements HeadGestureDetector.OnHeadGestureListener {
+public class MainActivity extends Activity  implements HeadGestureDetector.OnHeadGestureListener {
 
-    private CardScrollView mCardScroller;
+   // private CardScrollView mCardScroller;
     // Name of the connected device
     private String mConnectedDeviceName = null;
     // String buffer for outgoing messages
     private StringBuffer mOutStringBuffer;
-    // Member object for the chat services
+    // Member object for the bluetooth services
     private BluetoothWinkService mWinkService = null;
-    private SensorManager mSensorManager;
+    // Member object for head motion detection sensor
     private HeadGestureDetector mHeadGestureDetector;
-    private static final boolean D = true;
+    // Member object to keep a screen on
+    private PowerManager.WakeLock mWakeLock;
 
     // Message types sent from the BluetoothChatService Handler
     public static final int MESSAGE_STATE_CHANGE = 1;
@@ -63,8 +60,8 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
 
-    public static final int READY_TO_CONN =0;
-    public static final int CANCEL_CONN =1;
+//    public static final int READY_TO_CONN =0;
+//    public static final int CANCEL_CONN =1;
 
     // Return Intent extra
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
@@ -90,21 +87,15 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     BluetoothAdapter myBt;
     String TAG = "Wink Page";
 
-    protected PowerManager.WakeLock mWakeLock;
+
 
     Context ctx;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bluetooth_activity_layout);
-        if(D) Log.e(TAG, "+++ ON CREATE +++");
-        //setContentView(R.layout.bluetooth_activity_layout);
-        //      publishCards(this);
-//        final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK , TAG);
-//        mWakeLock.acquire();
+        Log.e(TAG, "+++ ON CREATE +++");
 
-        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         this.mWakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
         this.mWakeLock.acquire();
@@ -146,7 +137,7 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     @Override
     public void onStart() {
         super.onStart();
-        if(D) Log.e(TAG, "++ ON START ++");
+        Log.e(TAG, "++ ON START ++");
 
 
         if (!myBt.isEnabled()) {
@@ -160,7 +151,7 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     @Override
     public synchronized void onResume() {
         super.onResume();
-        if(D) Log.e(TAG, "+ ON RESUME +");
+        Log.e(TAG, "+ ON RESUME +");
 
         if (mWinkService != null) {
 
@@ -177,7 +168,7 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
 
         mHeadGestureDetector.stop();
 
-        if(D) Log.e(TAG, "- ON PAUSE -");
+        Log.e(TAG, "- ON PAUSE -");
         super.onPause();
     }
 
@@ -185,17 +176,19 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     public void onStop() {
         super.onStop();
 
-        if(D) Log.e(TAG, "-- ON STOP --");
+        Log.e(TAG, "-- ON STOP --");
     }
 
     @Override
     public void onDestroy() {
+
+        unregisterReceiver(mReceiver);
         // Stop the Bluetooth chat services
         if (mWinkService != null) mWinkService.stop();
-        mCardScroller.deactivate();
+        //mCardScroller.deactivate();
         this.mWakeLock.release();
         //mSensorManager.unregisterListener(mSensorEventListener);
-        if(D) Log.e(TAG, "--- ON DESTROY ---");
+        Log.e(TAG, "--- ON DESTROY ---");
         super.onDestroy();
     }
     private void setupWink() {
@@ -342,31 +335,24 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case MESSAGE_STATE_CHANGE:
-                    if(D) Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
+                   Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
                     switch (msg.arg1) {
                         case BluetoothWinkService.STATE_CONNECTED:
-                            Toast.makeText(BluetoothClient.this, R.string.title_connected_to + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.title_connected_to + mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                             setContentView(R.layout.bluetooth_activity_layout);
                             break;
                         case BluetoothWinkService.STATE_CONNECTING:
-                            Toast.makeText(BluetoothClient.this, R.string.title_connecting, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.title_connecting, Toast.LENGTH_SHORT).show();
 
                             break;
                         case BluetoothWinkService.STATE_LISTEN:
                         case BluetoothWinkService.STATE_NONE:
-//                            if(mCardScrollView!=null)
-//                            {
-//                                mCardScrollView.activate();
-//                                setupClickLIstener();
-//                                setContentView(mCardScrollView);
-//                            }
-
-                            Toast.makeText(BluetoothClient.this, R.string.title_not_connected, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.title_not_connected, Toast.LENGTH_SHORT).show();
                             break;
                     }
                     break;
                 case MESSAGE_WRITE:
-                    //Toast.makeText(BluetoothClient.this, "write", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "write", Toast.LENGTH_SHORT).show();
                     break;
                 case MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
@@ -398,7 +384,7 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data){
 
-        if(D) Log.d(TAG, "onActivityResult " + resultCode);
+        Log.d(TAG, "onActivityResult " + resultCode);
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE:
                 // When DeviceListActivity returns with a device to connect
@@ -427,8 +413,18 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
     }
 
     private void detectAndSetUp() {
-        //IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        //registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
+
+        if(myBt.isDiscovering()){
+            //検索中の場合は検出をキャンセルする
+            myBt.cancelDiscovery();
+        }
+        myBt.startDiscovery();
+        Log.e(TAG, "++++++DISCOVERY STARTED+++++");
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BluetoothDevice.ACTION_FOUND);
+        filter.addAction(BluetoothDevice.ACTION_NAME_CHANGED);
+        registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
 
         Set<BluetoothDevice> pairedDevices = myBt.getBondedDevices();
         // If there are paired devices
@@ -436,22 +432,45 @@ public class BluetoothClient extends Activity  implements HeadGestureDetector.On
             // Loop through paired devices
             for (BluetoothDevice device : pairedDevices) {
 
-                if(device.getName().contains("Nexus")) {
+                Log.i(TAG, device.getName() + " found");
 
-                } else {
-                    Log.i(TAG, device.getName() + " found");
-
-                    Card card = new Card(getApplicationContext());
-                    card.setText(device.getName());
-                    mCards.add(card);
-                    mdevices.add(device);
-
-                }
+                Card card = new Card(getApplicationContext());
+                card.setText(device.getName());
+                mCards.add(card);
+                mdevices.add(device);
 
             }
         }
-        myBt.startDiscovery();
+
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver(){
+        //検出されたデバイスからのブロードキャストを受ける
+        @Override
+        public void onReceive(Context context, Intent intent){
+            String action = intent.getAction();
+            String dName = null;
+            BluetoothDevice foundDevice;
+            Card card = null;
+
+            Log.e(TAG, "++++++ON RECEIVE+++++");
+            if(BluetoothDevice.ACTION_FOUND.equals(action)){
+                foundDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                if((dName = foundDevice.getName()) != null){
+                    if(foundDevice.getBondState() != BluetoothDevice.BOND_BONDED){
+                        Log.i(TAG, foundDevice.getName() + " found");
+
+                        card = new Card(getApplicationContext());
+                        card.setText(foundDevice.getName());
+                        mCards.add(card);
+                        mdevices.add(foundDevice);
+                    }
+                }
+
+            }
+
+        }
+    };
 
     private void setupClickLIstener(){
         mCardScrollView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

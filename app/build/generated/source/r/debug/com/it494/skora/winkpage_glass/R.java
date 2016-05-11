@@ -27,17 +27,14 @@ public final class R {
         public static final int table_row_divider=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b0005;
+        public static final int action_settings=0x7f0b0004;
         public static final int imageView=0x7f0b0002;
         public static final int imageView2=0x7f0b0000;
         public static final int nextPage=0x7f0b0003;
         public static final int prevPage=0x7f0b0001;
-        public static final int simple_table=0x7f0b0004;
     }
     public static final class layout {
         public static final int bluetooth_activity_layout=0x7f040000;
-        public static final int simple_table=0x7f040001;
-        public static final int simple_table_row=0x7f040002;
     }
     public static final class menu {
         public static final int bluetooth=0x7f0a0000;
@@ -52,12 +49,9 @@ public final class R {
         public static final int hello_world=0x7f080003;
         public static final int not_connected=0x7f080004;
         public static final int send=0x7f080005;
-        public static final int text_card_embedded_footnote=0x7f080006;
-        public static final int text_card_embedded_timestamp=0x7f080007;
-        public static final int title_connected_to=0x7f080008;
-        public static final int title_connecting=0x7f080009;
-        public static final int title_not_connected=0x7f08000a;
-        public static final int voice_trigger=0x7f08000b;
+        public static final int title_connected_to=0x7f080006;
+        public static final int title_connecting=0x7f080007;
+        public static final int title_not_connected=0x7f080008;
     }
     public static final class style {
         public static final int AppTheme=0x7f090000;

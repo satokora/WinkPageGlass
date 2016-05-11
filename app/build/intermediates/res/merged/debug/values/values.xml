@@ -12,16 +12,13 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Wink Page</string>
-    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving Bluetooth Chat.</string>
+    <string name="bt_not_enabled_leaving">Bluetooth was not enabled. Leaving WinkPage.</string>
     <string name="hello_world">Hello world!</string>
     <string name="not_connected">You are not connected to a device</string>
     <string name="send">Send</string>
-    <string name="text_card_embedded_footnote">Corresponding Gestures</string>
-    <string name="text_card_embedded_timestamp">WinkPageTurner</string>
     <string name="title_connected_to">connected: </string>
     <string name="title_connecting">connecting...</string>
     <string name="title_not_connected">not connected</string>
-    <string name="voice_trigger">Bluetooth Client</string>
     <!-- From: file:/Users/satokokora/Documents/coursework/IT494-GraduateProject/WinkPageTurnerGlass/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="android:Theme.DeviceDefault"/>

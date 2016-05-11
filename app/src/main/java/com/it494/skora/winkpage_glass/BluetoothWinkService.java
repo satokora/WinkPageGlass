@@ -31,8 +31,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.it494.skora.winkpage_glass.BluetoothClient;
-
 
 public class BluetoothWinkService {
     // Debugging
@@ -75,7 +73,7 @@ public class BluetoothWinkService {
         mState = state;
 
         // Give the new state to the Handler so the UI Activity can update
-        mHandler.obtainMessage(com.it494.skora.winkpage_glass.BluetoothClient.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+        mHandler.obtainMessage(MainActivity.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
     }
 
     /**
@@ -147,9 +145,9 @@ public class BluetoothWinkService {
         mConnectedThread.start();
 
         // Send the name of the connected device back to the UI Activity
-        Message msg = mHandler.obtainMessage(BluetoothClient.MESSAGE_DEVICE_NAME);
+        Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_DEVICE_NAME);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothClient.DEVICE_NAME, device.getName());
+        bundle.putString(MainActivity.DEVICE_NAME, device.getName());
         msg.setData(bundle);
         mHandler.sendMessage(msg);
 
@@ -191,9 +189,9 @@ public class BluetoothWinkService {
         setState(STATE_LISTEN);
 
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothClient.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothClient.TOAST, "Unable to connect device");
+        bundle.putString(MainActivity.TOAST, "Unable to connect device");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -205,9 +203,9 @@ public class BluetoothWinkService {
         setState(STATE_LISTEN);
 
         // Send a failure message back to the Activity
-        Message msg = mHandler.obtainMessage(BluetoothClient.MESSAGE_TOAST);
+        Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_TOAST);
         Bundle bundle = new Bundle();
-        bundle.putString(BluetoothClient.TOAST, "Device connection was lost");
+        bundle.putString(MainActivity.TOAST, "Device connection was lost");
         msg.setData(bundle);
         mHandler.sendMessage(msg);
     }
@@ -390,7 +388,7 @@ public class BluetoothWinkService {
                     bytes = mmInStream.read(buffer);
 
                     // Send the obtained bytes to the UI Activity
-                    mHandler.obtainMessage(BluetoothClient.MESSAGE_READ, bytes, -1, buffer)
+                    mHandler.obtainMessage(MainActivity.MESSAGE_READ, bytes, -1, buffer)
                             .sendToTarget();
                 } catch (IOException e) {
                     Log.e(TAG, "disconnected", e);
@@ -409,7 +407,7 @@ public class BluetoothWinkService {
                 mmOutStream.write(buffer);
 
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(BluetoothClient.MESSAGE_WRITE, -1, -1, buffer)
+                mHandler.obtainMessage(MainActivity.MESSAGE_WRITE, -1, -1, buffer)
                         .sendToTarget();
             } catch (IOException e) {
                 Log.e(TAG, "Exception during write", e);
