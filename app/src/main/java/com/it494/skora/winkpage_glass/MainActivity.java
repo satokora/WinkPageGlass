@@ -376,6 +376,11 @@ public class MainActivity extends Activity  implements HeadGestureDetector.OnHea
                 case MESSAGE_TOAST:
                     Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST),
                             Toast.LENGTH_SHORT).show();
+
+                    if(msg.getData().getString(TOAST).equalsIgnoreCase("Device connection was lost"))
+                    {
+                        finish();
+                    }
                     break;
             }
         }
