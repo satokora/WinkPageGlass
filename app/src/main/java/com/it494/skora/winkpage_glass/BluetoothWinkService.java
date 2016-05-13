@@ -34,11 +34,11 @@ import android.util.Log;
 
 public class BluetoothWinkService {
     // Debugging
-    private static final String TAG = "BluetoothChatService";
+    private static final String TAG = "BluetoothWinkService";
     private static final boolean D = true;
 
     // Name for the SDP record when creating server socket
-    private static final String NAME = "BluetoothChat";
+    private static final String NAME = "BluetoothWink";
 
     // Unique UUID for this application
     private static final UUID MY_UUID = UUID.fromString("7a7dd015-b0c6-423b-91c6-77ed7cfa80ac");
