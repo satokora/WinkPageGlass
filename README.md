@@ -1,5 +1,5 @@
 # WinkPageGlass
-
+<img src="scr1.png" width="200">
 ![](scr1.png =200x)![](scr2.png =200x)
 
 This repository contains source codes for my graduate directed project "A Hands-Free Music Score Turner Using Google Glass."
