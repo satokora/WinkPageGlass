@@ -1,5 +1,7 @@
 # WinkPageGlass
 
+![](scr1.png)![](scr2.png)
+
 This repository contains source codes for my graduate directed project "A Hands-Free Music Score Turner Using Google Glass."
 This project proposes an innovative use of wearable technology for music performers, 
 allowing them to interact with mobile applications that run as a hands-free music score turner 
@@ -16,6 +18,8 @@ Connect your Glass with your PC via USB cable and install the executable file on
 and download the executable file on your Google Glass. You can easily install it with GUI using the awesome app like [Chrome ADB](https://chrome.google.com/webstore/detail/chromeadb/fhdoijgfljahinnpbolfdimpcfoicmnm).
 
 ## Usage
+
+![](scr3.png)
 
 This application needs to interact with [the server application](https://github.com/satokora/WinkPageServer) 
 in order to run as a hands-free music score sheet turner. This project consists of two applications, 
