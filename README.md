@@ -36,7 +36,7 @@ and tap once to start Bluetooth connection.
 
 ## Credits
 
-This application is developed by the following great resources.
+This application is developed by help of the following great resources.
 I appreciate all of their great work.
 
 * Bluetooth connection: [android-BluetoothChat](https://github.com/googlesamples/android-BluetoothChat) By [googleSamples](https://github.com/googlesamples)
