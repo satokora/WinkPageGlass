@@ -43,7 +43,7 @@ and tap once to start Bluetooth connection.
 
 ## Development Environment
 * IDE: Android Studio
-* SDK: Android 4.4.2 API 19 Glass Development Lit Preview
+* SDK: Android 4.4.2 API 19 Glass Development Kit Preview
 
 ## Credits
 
