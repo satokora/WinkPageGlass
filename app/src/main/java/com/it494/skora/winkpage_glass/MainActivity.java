@@ -484,6 +484,7 @@ public class MainActivity extends Activity  implements HeadGestureDetector.OnHea
             public void onItemClick(AdapterView<?> parent, View arg1, int position, long id) {
                 int index = mCardScrollView.getSelectedItemPosition();
                 BluetoothDevice dev = mdevices.get(index);
+                Log.i(TAG, dev.getAddress());
                 BluetoothDevice device = myBt.getRemoteDevice(dev.getAddress());
                 // Attempt to connect to the device
                 mWinkService.connect(device);
