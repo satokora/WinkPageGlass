@@ -38,6 +38,12 @@ interacting with Google Drive services.
 and tap once to start Bluetooth connection.
 4. If you see right/left arrow screen with selected gesture names, you are ready to use the application.
 
+## Platform
+* Glass Software XE22
+
+## Development Environment
+* IDE: Android Studio
+* SDK: Android 4.4.2 API 19 Glass Development Lit Preview
 
 ## Credits
 
